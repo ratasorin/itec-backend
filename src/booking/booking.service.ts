@@ -11,6 +11,7 @@ export class BookingService {
   constructor(private prisma: PrismaService) {}
 
   async isAvalibleSpace({ start, end }: Timeframe, id: number) {
+    console.log({ start, end, id });
     try {
       const [{ overlaps }] = await this.prisma.$queryRaw<QueryResult>`
         SELECT COUNT(*) AS overlaps FROM bookings
@@ -26,7 +27,13 @@ export class BookingService {
   }
   async bookSpace({ book_from, id, space_id, book_until, user_id }: Booking) {
     try {
-      const booking = this.prisma.booking.create({
+      const isAvailable = await this.isAvalibleSpace(
+        { start: book_from, end: book_until },
+        space_id,
+      );
+      if (!isAvailable)
+        return `SPACE ${space_id} is booked from ${book_from} until ${book_until}` as const;
+      return this.prisma.booking.create({
         data: {
           book_from,
           book_until,
@@ -35,8 +42,6 @@ export class BookingService {
           user_id,
         },
       });
-
-      return booking;
     } catch (err) {
       console.error(err);
     }
