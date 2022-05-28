@@ -19,10 +19,10 @@ export class BookingService {
           overlaps: number;
         }[]
       >`
-        SELECT COUNT(*) AS overlaps FROM "Bookings"
-        WHERE "spaceId" = ${id} 
-        AND "bookFrom" BETWEEN ${start} AND ${end}
-        OR "bookUntil" BETWEEN ${start} AND ${end}
+        SELECT COUNT(*) AS overlaps FROM bookings
+        WHERE space_id = ${id} 
+        AND book_from BETWEEN ${start} AND ${end}
+        OR book_until BETWEEN ${start} AND ${end}
         `;
       return !overlaps;
     } catch (err) {
