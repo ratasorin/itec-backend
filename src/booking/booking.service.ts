@@ -30,15 +30,15 @@ export class BookingService {
       return err;
     }
   }
-  async bookSpace({ bookFrom, id, spaceId, bookUntil, userId }: Booking) {
+  async bookSpace({ book_from, id, space_id, book_until, user_id }: Booking) {
     try {
-      const booking = this.prisma.bookings.create({
+      const booking = this.prisma.booking.create({
         data: {
-          bookFrom,
-          bookUntil,
+          book_from,
+          book_until,
           id,
-          spaceId,
-          userId,
+          space_id,
+          user_id,
         },
       });
 

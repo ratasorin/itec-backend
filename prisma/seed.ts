@@ -21,19 +21,19 @@ const main = async () => {
     await prisma.space.create({
       data: {
         id: 1,
-        buildingId: 1,
+        building_id: 1,
       },
     });
 
-    const from = moment().toISOString();
-    const to = moment().add(2, 'hours').toISOString();
+    const book_from = moment().toISOString();
+    const book_until = moment().add(2, 'hours').toISOString();
 
-    await prisma.bookings.create({
+    await prisma.booking.create({
       data: {
-        bookFrom: from,
-        bookUntil: to,
-        spaceId: 1,
-        userId: 1,
+        book_from,
+        book_until,
+        space_id: 1,
+        user_id: 1,
       },
     });
   } catch (e) {
