@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Booking, Timeframe } from './interfaces';
 
+type QueryResult = {
+  overlaps: number;
+}[];
+
 @Injectable()
 export class BookingService {
   constructor(private prisma: PrismaService) {}
@@ -12,13 +16,8 @@ export class BookingService {
   ) {
     const start = new Date(JSONStart);
     const end = new Date(JSONEnd);
-    console.log({ start, end, id });
     try {
-      const [{ overlaps }] = await this.prisma.$queryRaw<
-        {
-          overlaps: number;
-        }[]
-      >`
+      const [{ overlaps }] = await this.prisma.$queryRaw<QueryResult>`
         SELECT COUNT(*) AS overlaps FROM bookings
         WHERE space_id = ${id} 
         AND book_from BETWEEN ${start} AND ${end}
