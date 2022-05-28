@@ -7,19 +7,27 @@ import {
   Post,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
-import { Booking, Timeframe } from './interfaces';
+import { Booking } from './interfaces';
 
 @Controller('booking')
 export class BookingController {
   constructor(private service: BookingService) {}
 
-  @Get('availability/:id')
-  async isAvailableBetween(
+  @Get('available/:id')
+  async availableTimeframes(
     @Param('id', ParseIntPipe) id: number,
-    @Body() input: Timeframe,
+    @Body('end') end: Date,
   ) {
     console.log({ id });
-    return await this.service.isAvalibleSpace(input, id);
+    return await this.service.availableTimeframes(id, end);
+  }
+
+  @Get('availability/:id')
+  async availability(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('end') end: Date,
+  ) {
+    return await this.service.availability(id, end);
   }
   @Post()
   async bookSpace(@Body() input: Booking) {
