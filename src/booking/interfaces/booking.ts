@@ -1,12 +1,15 @@
 import { Booking as PrismaBooking } from '@prisma/client';
-import { IsDateString, IsNotEmpty, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class Booking implements PrismaBooking {
-  @IsDateString()
+  @Type(() => Date)
+  @IsDate()
   @IsNotEmpty()
   book_from: Date;
 
-  @IsDateString()
+  @Type(() => Date)
+  @IsDate()
   @IsNotEmpty()
   book_until: Date;
 

@@ -10,12 +10,7 @@ type QueryResult = {
 export class BookingService {
   constructor(private prisma: PrismaService) {}
 
-  async isAvalibleSpace(
-    { start: JSONStart, end: JSONEnd }: Timeframe,
-    id: number,
-  ) {
-    const start = new Date(JSONStart);
-    const end = new Date(JSONEnd);
+  async isAvalibleSpace({ start, end }: Timeframe, id: number) {
     try {
       const [{ overlaps }] = await this.prisma.$queryRaw<QueryResult>`
         SELECT COUNT(*) AS overlaps FROM bookings

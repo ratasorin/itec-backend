@@ -1,11 +1,14 @@
-import { IsDateString, IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsDate, IsNotEmpty } from 'class-validator';
 
 export class Timeframe {
-  @IsDateString()
+  @Type(() => Date)
+  @IsDate()
   @IsNotEmpty()
-  start: string;
+  start: Date;
 
-  @IsDateString()
+  @Type(() => Date)
+  @IsDate()
   @IsNotEmpty()
-  end: string;
+  end: Date;
 }
