@@ -11,10 +11,11 @@ datasource db {
 }
 
 model User {
-  id       Int       @id() @default(autoincrement())
-  name     String    @unique
+  id       Int        @id() @default(autoincrement())
+  name     String     @unique
   bookings Booking[]
-  admin    Boolean   @default(false)
+  admin    Boolean    @default(false)
+  Building Building[]
 
   @@map("users")
 }
@@ -44,8 +45,10 @@ model Space {
 }
 
 model Building {
-  id     Int     @id @default(autoincrement())
-  spaces Space[]
+  id      Int     @id @default(autoincrement())
+  spaces  Space[]
+  owner   User    @relation(fields: [user_id], references: [id])
+  user_id Int
 
   @@map("buildings")
 }
