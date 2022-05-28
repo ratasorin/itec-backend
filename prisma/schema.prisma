@@ -41,6 +41,7 @@ model Space {
   Building    Building? @relation(fields: [building_id], references: [id])
   building_id Int?
 
+  @@unique([x, y, z])
   @@map("spaces")
 }
 
