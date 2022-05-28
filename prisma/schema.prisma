@@ -11,33 +11,41 @@ datasource db {
 }
 
 model User {
-  id       Int        @id() @default(autoincrement())
-  name     String     @unique
-  bookings Bookings[]
-  admin    Boolean    @default(false)
+  id       Int       @id() @default(autoincrement())
+  name     String    @unique
+  bookings Booking[]
+  admin    Boolean   @default(false)
+
+  @@map("users")
 }
 
-model Bookings {
-  id        Int      @id @default(autoincrement())
-  bookFrom  DateTime
-  bookUntil DateTime
-  space     Space    @relation(fields: [spaceId], references: [id])
-  spaceId   Int
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
+model Booking {
+  id         Int      @id @default(autoincrement())
+  book_from  DateTime
+  book_until DateTime
+  space      Space    @relation(fields: [space_id], references: [id])
+  space_id   Int
+  User       User?    @relation(fields: [user_id], references: [id])
+  user_id    Int?
+
+  @@map("bookings")
 }
 
 model Space {
-  id         Int        @id @default(autoincrement())
-  Bookings   Bookings[]
-  x          Int        @default(0)
-  y          Int        @default(0)
-  z          Int        @default(0)
-  Building   Building?  @relation(fields: [buildingId], references: [id])
-  buildingId Int?
+  id          Int       @id @default(autoincrement())
+  Bookings    Booking[]
+  x           Int       @default(0)
+  y           Int       @default(0)
+  z           Int       @default(0)
+  Building    Building? @relation(fields: [building_id], references: [id])
+  building_id Int?
+
+  @@map("spaces")
 }
 
 model Building {
   id     Int     @id @default(autoincrement())
   spaces Space[]
+
+  @@map("buildings")
 }
